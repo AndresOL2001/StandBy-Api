@@ -1,9 +1,10 @@
 package com.standby.backend.models;
 
-import java.util.HashSet;
+import java.math.BigDecimal;
 import java.util.Set;
 import java.util.UUID;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -41,4 +42,23 @@ public class Acceso {
     @JoinColumn(name = "idResidencial")
     @JsonIgnore
     private Residencial residencial;
+
+    @Column(nullable = true)
+    private BigDecimal precio;
+
+    @Column(nullable = true)
+    private boolean garage;
+    
+    @Column(nullable = true)
+    private String nombre;
+    
+    @Column(nullable = true)
+    private int radio;
+     @OneToMany(mappedBy = "acceso")
+     @JsonIgnore
+    Set<AccesosUsuarios> usuarios;
+    
+    public Acceso(UUID idAcceso) {
+        this.idAcceso = idAcceso;
+    }
 }

@@ -3,11 +3,9 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
+import javax.persistence.EntityListeners;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -37,6 +35,11 @@ public class Usuario {
     private String calle;
     private String numeroCasa;
     private String celular;
+ 
+    
+    @Column(nullable = true)
+    private boolean pago;
+    @JsonIgnore
     private String contraseña;
     @ManyToOne(fetch=FetchType.EAGER)
     @JoinColumn(name = "id_rol")
@@ -45,6 +48,13 @@ public class Usuario {
 
     @ManyToOne(fetch=FetchType.EAGER)
     @JoinColumn(name = "idResidencial")
-    @JsonIgnore
     private Residencial residencial;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "usuario")
+    Set<AccesosUsuarios> usuarios;
+    
+    public Usuario(UUID usuario) {
+       this.idUsuario = usuario;
+    }
 }

@@ -1,5 +1,7 @@
 package com.standby.backend.DTOs;
 
+import java.math.BigDecimal;
+
 import javax.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -10,17 +12,14 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-public class ResidencialCreacionDTO {
+public class AccesoCreacionDTO {
+    private String idResidencial;
+    private String latitudCaseta;
+    private String longitudCaseta;
     private String direccion;
-
-    @Column(nullable = true)
+    private BigDecimal precio;
     private String nombre;
-    
-    @Column(unique = true)
-    private String numeroSerie;
-    
-    private String latitudResidencial;
-    
-    private String longitudResidencial;
+    private boolean garage;
     private int radio;
+    private String usuarioId;
 }
