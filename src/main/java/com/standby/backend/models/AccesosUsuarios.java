@@ -1,5 +1,7 @@
 package com.standby.backend.models;
 
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 import javax.persistence.Column;
@@ -11,6 +13,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.CreationTimestamp;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -18,7 +22,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "accesos_usuarios",schema="standby")
+@Table(name = "pagos",schema="standby")
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -27,7 +31,7 @@ import lombok.Setter;
 public class AccesosUsuarios {
 
     @Id
-    @Column(name = "log_id")
+    @Column(name = "pago_id")
     private UUID id;
 
     @ManyToOne
@@ -41,5 +45,5 @@ public class AccesosUsuarios {
     @Column(name = "activo")
     private boolean isActive;
 
-    
+
 }

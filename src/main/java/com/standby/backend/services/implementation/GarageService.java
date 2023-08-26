@@ -1,6 +1,7 @@
 package com.standby.backend.services.implementation;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
@@ -15,6 +16,6 @@ public class GarageService {
         this.accesoRepository = accesoRepository;
     }
     public List<Acceso> obtenerGarages(){
-        return accesoRepository.findAll().stream().filter(Acceso::isGarage).toList();
+        return accesoRepository.findAll().stream().filter(Acceso::isGarage).collect(Collectors.toList());
     }
 }

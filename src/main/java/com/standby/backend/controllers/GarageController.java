@@ -27,7 +27,6 @@ public class GarageController {
 
     @GetMapping()
     public ResponseEntity<?> obtenerGarages(){
-        
         try{
             List<Acceso> acceso = garageService.obtenerGarages();
             return ResponseEntity.ok(acceso);
