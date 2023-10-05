@@ -1,5 +1,6 @@
 package com.standby.backend.models;
-
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 import javax.persistence.Column;
@@ -17,17 +18,16 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "accesos_usuarios",schema="standby")
+@Table(name = "pagos",schema="standby")
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
 @Builder
-public class AccesosUsuarios {
+public class Pago {
 
     @Id
-    @Column(name = "acceso_usuario_id")
-    private UUID id;
+    private UUID pago_id;
 
     @ManyToOne
     @JoinColumn(name = "idUsuario")
@@ -37,8 +37,7 @@ public class AccesosUsuarios {
     @JoinColumn(name = "idAcceso")
     private Acceso acceso;
 
-    @Column(name = "activo")
-    private boolean isActive;
+    private BigDecimal payment_amount;
 
-
+    private LocalDateTime payment_date;
 }

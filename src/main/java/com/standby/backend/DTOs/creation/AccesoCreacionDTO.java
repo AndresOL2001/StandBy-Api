@@ -1,4 +1,4 @@
-package com.standby.backend.DTOs;
+package com.standby.backend.DTOs.creation;
 
 import java.math.BigDecimal;
 

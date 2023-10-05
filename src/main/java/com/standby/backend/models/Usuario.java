@@ -5,7 +5,6 @@ import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -35,7 +34,7 @@ public class Usuario {
     private String calle;
     private String numeroCasa;
     private String celular;
- 
+    private Integer compartidas = 30;
     
     @Column(nullable = true)
     private boolean pago;
@@ -53,6 +52,10 @@ public class Usuario {
     @JsonIgnore
     @OneToMany(mappedBy = "usuario")
     Set<AccesosUsuarios> usuarios;
+
+    @OneToMany(mappedBy = "usuario",fetch = FetchType.LAZY)
+    @JsonIgnore
+    private Set<Compartir> compartir = new HashSet<>();
     
     public Usuario(UUID usuario) {
        this.idUsuario = usuario;
