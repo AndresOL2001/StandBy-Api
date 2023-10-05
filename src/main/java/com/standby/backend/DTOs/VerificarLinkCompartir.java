@@ -11,4 +11,5 @@ public class VerificarLinkCompartir {
     private String idUsuario;
     private String idResidencial;
     private String idCompartir;
+    private String idAcceso;
 }

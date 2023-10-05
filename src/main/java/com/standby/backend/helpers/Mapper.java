@@ -86,7 +86,7 @@ public class Mapper {
         .usuario(new Usuario(UUID.fromString(compartirCreacionDTO.getIdUsuario())))
         .fecha_creacion(LocalDateTime.now())
         .expiracion(LocalDateTime.now().plusHours(5))
-        .link("localhost/api/accesos/acceder/"+compartirCreacionDTO.getIdResidencial()+"/"+compartirCreacionDTO.getIdUsuario()+"/compartir/"+id)
+        .link("localhost/api/accesos/acceder/"+compartirCreacionDTO.getIdResidencial()+"/"+compartirCreacionDTO.getIdUsuario()+"/compartir/"+id+"/"+compartirCreacionDTO.getIdAcceso())
         .build();
     }
     

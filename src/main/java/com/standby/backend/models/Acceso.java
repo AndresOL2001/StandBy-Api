@@ -45,6 +45,8 @@ public class Acceso {
     @Column(nullable = true)
     private BigDecimal precio;
 
+    private String endpoint;
+
     @Column(nullable = true)
     private boolean garage;
     

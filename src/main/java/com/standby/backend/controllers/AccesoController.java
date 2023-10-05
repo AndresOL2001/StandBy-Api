@@ -49,15 +49,18 @@ public class AccesoController {
     }
 
     // Acceder mediante compartidas
-    @GetMapping("/acceder/{idResidencial}/{idUsuario}/compartir/{idCompartir}")
+    @GetMapping("/acceder/{idResidencial}/{idUsuario}/compartir/{idCompartir}/{idAcceso}")
     public ResponseEntity<?> AccederConCompartidas(@PathVariable String idUsuario, @PathVariable String idResidencial,
-            @PathVariable String idCompartir) {
+            @PathVariable String idCompartir, @PathVariable String idAcceso) {
         try {
             VerificarLinkCompartir verificarLinkCompartir = new VerificarLinkCompartir(idUsuario, idResidencial,
-                    idCompartir);
+                    idCompartir,idAcceso);
             accesoService.verificarAccesoCompartidas(verificarLinkCompartir);
-                ErrorMessage errorMessage = new ErrorMessage("ACCEDIENDO", "OK");
-                return new ResponseEntity<>(errorMessage, HttpStatus.OK);
+            Acceso acceso = accesoService.obtenerAccesoPorId(UUID.fromString(idAcceso));
+            //Lugar donde hacer petición de abrir
+            System.out.println(acceso.getEndpoint());
+            ErrorMessage errorMessage = new ErrorMessage("ACCEDIENDO", "OK");
+            return new ResponseEntity<>(errorMessage, HttpStatus.OK);
 
         } catch (Exception e) {
             ErrorMessage errorMessage = new ErrorMessage(e.getMessage(), "BAD_REQUEST");
@@ -76,10 +79,11 @@ public class AccesoController {
         }
     }
 
-    @GetMapping("/compartir/{idUsuario}/{idResidencial}")
-    public ResponseEntity<?> CompartirAcceso(@PathVariable String idUsuario, @PathVariable String idResidencial) {
+    @GetMapping("/compartir/{idUsuario}/{idResidencial}/{idAcceso}")
+    public ResponseEntity<?> CompartirAcceso(@PathVariable String idUsuario, @PathVariable String idResidencial ,
+    @PathVariable String idAcceso) {
         try {
-            CompartirCreacionDTO compartirCreacionDTO = new CompartirCreacionDTO(idUsuario, idResidencial);
+            CompartirCreacionDTO compartirCreacionDTO = new CompartirCreacionDTO(idUsuario, idResidencial,idAcceso);
             Compartir compartir = compartirService.crearCompartida(compartirCreacionDTO);
             return new ResponseEntity<>(compartir, HttpStatus.BAD_REQUEST);
         } catch (Exception e) {

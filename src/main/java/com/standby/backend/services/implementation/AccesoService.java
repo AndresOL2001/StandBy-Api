@@ -1,6 +1,5 @@
 package com.standby.backend.services.implementation;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -11,6 +10,7 @@ import java.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.standby.backend.DTOs.ErrorMessage;
 import com.standby.backend.DTOs.VerificarLinkCompartir;
@@ -191,30 +191,41 @@ public class AccesoService implements IAccesoService {
     }
 
     @Override
+    @Transactional
     public void verificarAccesoCompartidas(VerificarLinkCompartir verificarLinkCompartir) {
         Optional<Usuario> uOptional = usuarioRepository
                 .findById(UUID.fromString(verificarLinkCompartir.getIdUsuario()));
         if (uOptional.isEmpty()) {
-            logger.error( "AccesoService verificarAccesoCompartidas id de usuario no encontrado");
+            logger.error("AccesoService verificarAccesoCompartidas id de usuario no encontrado");
             throw new RuntimeException("Error: id de usuario no encontrado");
         }
 
         Optional<Residencial> rOptional = residencialRepository
                 .findById(UUID.fromString(verificarLinkCompartir.getIdResidencial()));
         if (rOptional.isEmpty()) {
-            logger.error( "AccesoService verificarAccesoCompartidas id de residencial no encontrado");
+            logger.error("AccesoService verificarAccesoCompartidas id de residencial no encontrado");
             throw new RuntimeException("Error: id de residencial no encontrado");
         }
 
         Optional<Compartir> cOptional = compartirRepository
                 .findById(UUID.fromString(verificarLinkCompartir.getIdCompartir()));
         if (cOptional.isEmpty()) {
-            logger.error( "AccesoService verificarAccesoCompartidas id de compartir no encontrado");
+            logger.error("AccesoService verificarAccesoCompartidas id de compartir no encontrado");
             throw new RuntimeException("Error: id de compartir no encontrado");
         }
 
+        Optional<Acceso> aOptional = accesoRepository
+                .findById(UUID.fromString(verificarLinkCompartir.getIdAcceso()));
+
+        if (aOptional.isEmpty()) {
+            logger.error("AccesoService verificarAccesoCompartidas id de acceso no encontrado");
+            throw new RuntimeException("Error: id de acceso no encontrado");
+        }
+
         if (cOptional.get().hasExpired()) {
-            logger.error( "AccesoService verificarAccesoCompartidas Link Expirado");
+            cOptional.get().setEstaActivo(false);
+            compartirRepository.save(cOptional.get());
+            logger.error("AccesoService verificarAccesoCompartidas Link Expirado");
             throw new RuntimeException("Error: Link Expirado");
         }
 

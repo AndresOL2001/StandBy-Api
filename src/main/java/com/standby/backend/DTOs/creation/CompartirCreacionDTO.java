@@ -11,4 +11,6 @@ import lombok.Setter;
 public class CompartirCreacionDTO {
      private String idUsuario;
      private String idResidencial;
+     private String idAcceso;
+
 }
