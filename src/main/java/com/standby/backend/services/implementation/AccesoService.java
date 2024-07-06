@@ -37,17 +37,19 @@ public class AccesoService implements IAccesoService {
     private final CompartirRepository compartirRepository;
     private final ResidencialRepository residencialRepository;
     private final Mapper mapper;
+    private final LogService logService;
     private static final Logger logger = LoggerFactory.getLogger(AccesoService.class);
 
     public AccesoService(AccesoRepository accesoRepository, Mapper mapper,
             ResidencialRepository residencialRepository, AccesosUsuariosRepository accesosUsuariosRepository,
-            UsuarioRepository usuarioRepository, CompartirRepository compartirRepository) {
+            UsuarioRepository usuarioRepository, CompartirRepository compartirRepository,LogService logService) {
         this.accesoRepository = accesoRepository;
         this.mapper = mapper;
         this.residencialRepository = residencialRepository;
         this.usuarioRepository = usuarioRepository;
         this.accesosUsuariosRepository = accesosUsuariosRepository;
         this.compartirRepository = compartirRepository;
+        this.logService = logService;
     }
 
     @Override
@@ -229,6 +231,18 @@ public class AccesoService implements IAccesoService {
             throw new RuntimeException("Error: Link Expirado");
         }
 
+    }
+
+    @Override
+    public Usuario comprarCompartidas(UUID idUsuario) {
+        Optional<Usuario> cOptional = usuarioRepository
+                .findById(idUsuario);
+        if (cOptional.isEmpty()) {
+            logger.error("AccesoService comprarCompartidas Usuario inexistente");
+            throw new RuntimeException("Error: Link Expirado");
+        }
+        cOptional.get().setCompartidas(20);
+        return usuarioRepository.save(cOptional.get());
     }
 
 }

@@ -10,10 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.standby.backend.DTOs.ErrorMessage;
 import com.standby.backend.DTOs.PagoCreacionDTO;
-import com.standby.backend.DTOs.creation.AccesoCreacionDTO;
-import com.standby.backend.models.Acceso;
 import com.standby.backend.models.Pago;
-import com.standby.backend.services.implementation.AccesoService;
 import com.standby.backend.services.implementation.PagoService;
 
 @RestController

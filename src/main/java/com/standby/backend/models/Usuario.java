@@ -56,6 +56,10 @@ public class Usuario {
     @OneToMany(mappedBy = "usuario",fetch = FetchType.LAZY)
     @JsonIgnore
     private Set<Compartir> compartir = new HashSet<>();
+
+    @OneToMany(mappedBy = "usuario",fetch = FetchType.LAZY)
+    @JsonIgnore
+    private Set<Log> usuariosLogs = new HashSet<>();
     
     public Usuario(UUID usuario) {
        this.idUsuario = usuario;

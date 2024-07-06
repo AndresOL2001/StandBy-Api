@@ -18,11 +18,14 @@ import com.standby.backend.DTOs.ErrorMessage;
 import com.standby.backend.DTOs.VerificarLinkCompartir;
 import com.standby.backend.DTOs.creation.AccesoCreacionDTO;
 import com.standby.backend.DTOs.creation.CompartirCreacionDTO;
+import com.standby.backend.DTOs.creation.LogCreacionDTO;
 import com.standby.backend.DTOs.responses.AccesoDTO;
 import com.standby.backend.models.Acceso;
 import com.standby.backend.models.Compartir;
+import com.standby.backend.models.Usuario;
 import com.standby.backend.services.implementation.AccesoService;
 import com.standby.backend.services.implementation.CompartirService;
+import com.standby.backend.services.implementation.LogService;
 
 @RestController
 @RequestMapping("/api/accesos")
@@ -31,12 +34,15 @@ public class AccesoController {
 
     private final AccesoService accesoService;
     private final CompartirService compartirService;
+    private final LogService logService;
 
-    public AccesoController(AccesoService accesoService, CompartirService compartirService) {
+    public AccesoController(AccesoService accesoService, CompartirService compartirService, LogService logService) {
         this.accesoService = accesoService;
         this.compartirService = compartirService;
+        this.logService = logService;
     }
 
+    //acceder Residencial
     @GetMapping("/acceder/{idResidencial}/{idUsuario}")
     public ResponseEntity<?> AccederResidencial(@RequestBody AccesoCreacionDTO accesoCreacionDTO) {
         try {
@@ -56,6 +62,7 @@ public class AccesoController {
             VerificarLinkCompartir verificarLinkCompartir = new VerificarLinkCompartir(idUsuario, idResidencial,
                     idCompartir,idAcceso);
             accesoService.verificarAccesoCompartidas(verificarLinkCompartir);
+            logService.crearLog(new LogCreacionDTO(idAcceso,idUsuario),true);
             Acceso acceso = accesoService.obtenerAccesoPorId(UUID.fromString(idAcceso));
             //Lugar donde hacer petición de abrir
             System.out.println(acceso.getEndpoint());
@@ -73,6 +80,17 @@ public class AccesoController {
         try {
             Acceso acceso = accesoService.guardarAcceso(accesoCreacionDTO);
             return ResponseEntity.ok(acceso);
+        } catch (Exception e) {
+            ErrorMessage errorMessage = new ErrorMessage(e.getMessage(), "BAD_REQUEST");
+            return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PostMapping("/compartir/comprar/{idUsuario}")
+    public ResponseEntity<?> ComprarCompartidas(@PathVariable String idUsuario) {
+        try {
+            Usuario usuario = accesoService.comprarCompartidas(UUID.fromString(idUsuario));
+            return ResponseEntity.ok(usuario);
         } catch (Exception e) {
             ErrorMessage errorMessage = new ErrorMessage(e.getMessage(), "BAD_REQUEST");
             return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);

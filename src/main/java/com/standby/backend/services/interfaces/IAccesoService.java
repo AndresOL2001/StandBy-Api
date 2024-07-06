@@ -8,9 +8,11 @@ import com.standby.backend.DTOs.VerificarLinkCompartir;
 import com.standby.backend.DTOs.creation.AccesoCreacionDTO;
 import com.standby.backend.DTOs.responses.AccesoDTO;
 import com.standby.backend.models.Acceso;
+import com.standby.backend.models.Usuario;
 
 public interface IAccesoService {
     public Acceso obtenerAccesoPorId(UUID idAcceso);
+    public Usuario comprarCompartidas(UUID idUsuario);
 
     public List<Acceso> obtenerAccesosPorIdResidencial(UUID idResidencial);
 
